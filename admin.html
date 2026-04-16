@@ -256,10 +256,9 @@
     </div>
     <button class="login-btn" onclick="doLogin()">Access Panel</button>
     <div class="login-err" id="login-err"></div>
-    <div style="font-size:10px;color:var(--text-muted);margin-top:20px">
-      <strong style="color:var(--orange)">⚠ Security Notice:</strong><br>
-      Change the default password immediately after first login.<br>
-      Go to Settings tab → Change Password.
+    <div style="font-size:10px;color:var(--text-muted);margin-top:20px;font-family:var(--mono);line-height:1.8">
+      Default password: <span style="color:var(--orange)">admin2025</span><br>
+      Change it in Settings tab after login.
     </div>
   </div>
 </div>
@@ -318,8 +317,8 @@
           <div class="admin-card-title">Tagline</div>
           <div class="field-group">
             <label class="field-label">Tagline Text (supports HTML)</label>
-            <textarea class="field-textarea" id="h-tagline" rows="4">Building resilient cloud infrastructure,&lt;br&gt; automating the world - one pipeline at a time.&lt;br&gt; Specializing in AWS Security &amp;amp; &lt;span class="glitch-word" id="glitch-word" data-text="CI/CD"&gt;CI/CD&lt;/span&gt;</textarea>
-            <div class="field-hint">// The last &lt;span class="glitch-word"&gt; triggers the glitch animation</div>
+            <textarea class="field-textarea" id="h-tagline" rows="4">Building resilient cloud infrastructure, automating the world - one pipeline at a time. Specializing in AWS Security &amp; CI/CD automation.</textarea>
+            <div class="field-hint">// This text appears in the hero section</div>
           </div>
           <div class="field-group">
             <label class="field-label">Glitch Words (comma-separated)</label>
