@@ -325,7 +325,7 @@ footer{background:var(--ink);padding:32px 8vw;display:flex;justify-content:space
     <div class="photo-area reveal">
       <div class="photo-frame">
         <div class="photo-ph" id="photo-ph"><div class="photo-ph-ic">👤</div><div class="photo-ph-tx">Photo<br>coming soon</div></div>
-        <img id="about-img" src="photo.jpg" alt="Adarsh Joshi">
+        <img id="about-img" src="photo.jpeg" alt="Adarsh Joshi">
       </div>
       <div class="cert-float cf1"><div class="cert-dot"></div>AWS SCS-C03 · Security Specialty</div>
       <div class="cert-float cf2"><div class="cert-dot"></div>AWS CLF-C02 · Cloud Foundation</div>
@@ -1000,12 +1000,12 @@ try{
   const d=JSON.parse(localStorage.getItem('portfolio_data')||'{}');
   // About
   if(d.aboutBio)document.getElementById('about-text').innerHTML=d.aboutBio;
-  // Photo - use custom photo or default to photo.jpg
+  // Photo - use custom photo or default to photo.jpeg
   const img=document.getElementById('about-img');
   if(d.photoSrc){
     img.src=d.photoSrc;
   } else {
-    img.src='photo.jpg';
+    img.src='photo.jpeg';
   }
   img.classList.add('loaded');
   document.getElementById('photo-ph').style.display='none';
