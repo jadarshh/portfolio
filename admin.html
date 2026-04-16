@@ -1,0 +1,1124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin - Adarsh Joshi Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0805; --bg2: #110e09; --bg3: #1a1510;
+    --orange: #f97316; --orange-dim: #c2570d;
+    --orange-glow: rgba(249,115,22,0.12);
+    --orange-line: rgba(249,115,22,0.3);
+    --cream: #fdf4e7; --text: #e8d5b7; --text-dim: #8a7660; --text-muted: #4a3f30;
+    --mono: 'Space Mono', monospace; --sans: 'Syne', sans-serif;
+    --border: rgba(249,115,22,0.2); --border-subtle: rgba(255,255,255,0.06);
+    --danger: #ef4444;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg); color: var(--text);
+    font-family: var(--mono); min-height: 100vh;
+  }
+
+  /* ─── LOGIN ─── */
+  #login-screen {
+    min-height: 100vh; display: flex; align-items: center; justify-content: center;
+    background: var(--bg);
+  }
+  .login-box {
+    width: 380px; padding: 48px;
+    border: 1px solid var(--border);
+    background: var(--bg2);
+  }
+  .login-logo {
+    font-family: var(--sans); font-size: 22px; font-weight: 800;
+    color: var(--orange); margin-bottom: 8px;
+  }
+  .login-sub { font-size: 11px; color: var(--text-muted); letter-spacing: 0.15em; margin-bottom: 40px; }
+
+  .login-field { margin-bottom: 20px; }
+  .login-label { font-size: 10px; color: var(--orange); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 8px; display: block; }
+  .login-input {
+    width: 100%; font-family: var(--mono); font-size: 14px;
+    background: var(--bg); border: 1px solid var(--border-subtle);
+    color: var(--text); padding: 12px 14px; outline: none;
+    transition: border-color 0.2s;
+  }
+  .login-input:focus { border-color: var(--orange); }
+  .login-btn {
+    width: 100%; font-family: var(--mono); font-size: 12px; letter-spacing: 0.15em;
+    text-transform: uppercase; padding: 14px;
+    background: var(--orange); color: #0a0805; border: none; cursor: pointer; font-weight: 700;
+    transition: background 0.2s; margin-top: 8px;
+  }
+  .login-btn:hover { background: var(--cream); }
+  .login-err { font-size: 11px; color: var(--danger); margin-top: 12px; min-height: 16px; }
+
+  /* ─── ADMIN PANEL ─── */
+  #admin-panel { display: none; min-height: 100vh; }
+
+  .admin-header {
+    background: var(--bg2); border-bottom: 1px solid var(--border-subtle);
+    padding: 16px 32px; display: flex; justify-content: space-between; align-items: center;
+    position: sticky; top: 0; z-index: 50;
+  }
+  .admin-logo { font-family: var(--sans); font-size: 18px; font-weight: 800; color: var(--orange); }
+  .admin-logo span { color: var(--text-dim); font-weight: 400; font-size: 13px; font-family: var(--mono); }
+
+  .admin-actions { display: flex; gap: 12px; align-items: center; }
+  .btn-save {
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase;
+    padding: 10px 20px; background: var(--orange); color: #0a0805;
+    border: none; cursor: pointer; font-weight: 700; transition: background 0.2s;
+  }
+  .btn-save:hover { background: var(--cream); }
+  .btn-ghost {
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 10px 20px; background: transparent; color: var(--text-dim);
+    border: 1px solid var(--border-subtle); cursor: pointer; text-decoration: none;
+    transition: all 0.2s; display: inline-block;
+  }
+  .btn-ghost:hover { border-color: var(--orange); color: var(--orange); }
+  .btn-danger {
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em;
+    padding: 10px 16px; background: transparent; color: var(--danger);
+    border: 1px solid rgba(239,68,68,0.3); cursor: pointer; transition: all 0.2s;
+  }
+  .btn-danger:hover { background: rgba(239,68,68,0.1); }
+
+  /* ─── LAYOUT ─── */
+  .admin-body { display: grid; grid-template-columns: 220px 1fr; min-height: calc(100vh - 57px); }
+
+  .admin-sidebar {
+    background: var(--bg2); border-right: 1px solid var(--border-subtle);
+    padding: 24px 0;
+  }
+  .sidebar-section { padding: 6px 20px 16px; }
+  .sidebar-section-title {
+    font-size: 9px; color: var(--text-muted); letter-spacing: 0.3em;
+    text-transform: uppercase; margin-bottom: 8px;
+  }
+  .sidebar-item {
+    display: block; width: 100%; text-align: left; background: none; border: none;
+    font-family: var(--mono); font-size: 12px; color: var(--text-dim);
+    padding: 9px 14px; cursor: pointer; transition: all 0.15s;
+    border-left: 2px solid transparent;
+  }
+  .sidebar-item:hover { color: var(--text); background: rgba(249,115,22,0.05); }
+  .sidebar-item.active { color: var(--orange); border-left-color: var(--orange); background: var(--orange-glow); }
+
+  .admin-content { padding: 40px; overflow-y: auto; }
+
+  /* ─── TABS ─── */
+  .tab-pane { display: none; }
+  .tab-pane.active { display: block; }
+
+  .pane-title {
+    font-family: var(--sans); font-size: 28px; font-weight: 800;
+    color: var(--cream); margin-bottom: 8px;
+  }
+  .pane-sub { font-size: 11px; color: var(--text-muted); letter-spacing: 0.1em; margin-bottom: 40px; }
+
+  /* ─── FORM ELEMENTS ─── */
+  .field-group { margin-bottom: 28px; }
+  .field-label {
+    font-size: 10px; color: var(--orange); letter-spacing: 0.2em;
+    text-transform: uppercase; margin-bottom: 10px; display: block;
+  }
+  .field-input, .field-textarea {
+    width: 100%; font-family: var(--mono); font-size: 13px;
+    background: var(--bg2); border: 1px solid var(--border-subtle);
+    color: var(--text); padding: 12px 16px; outline: none;
+    transition: border-color 0.2s; resize: vertical;
+  }
+  .field-input:focus, .field-textarea:focus { border-color: var(--orange); }
+  .field-hint { font-size: 10px; color: var(--text-muted); margin-top: 6px; letter-spacing: 0.05em; }
+
+  /* ─── CARD ─── */
+  .admin-card {
+    background: var(--bg2); border: 1px solid var(--border-subtle);
+    padding: 28px; margin-bottom: 20px;
+  }
+  .admin-card-title {
+    font-family: var(--sans); font-size: 16px; font-weight: 700;
+    color: var(--cream); margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center;
+  }
+
+  /* ─── PROJECT EDITOR ─── */
+  .project-list { display: flex; flex-direction: column; gap: 16px; margin-bottom: 24px; }
+  .project-edit-item {
+    background: var(--bg3); border: 1px solid var(--border-subtle);
+    padding: 20px; position: relative;
+  }
+  .project-edit-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+  .project-edit-name { font-family: var(--sans); font-size: 15px; font-weight: 700; color: var(--cream); }
+
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .btn-add {
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase;
+    padding: 12px 24px; background: transparent; color: var(--orange);
+    border: 1px dashed var(--orange-line); cursor: pointer; transition: all 0.2s; width: 100%;
+  }
+  .btn-add:hover { background: var(--orange-glow); border-style: solid; }
+
+  /* ─── SKILLS EDITOR ─── */
+  .tag-editor { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+  .tag-editable {
+    display: flex; align-items: center; gap: 6px;
+    padding: 6px 10px; border: 1px solid var(--border-subtle);
+    font-family: var(--mono); font-size: 11px; color: var(--text-dim);
+    background: var(--bg3);
+  }
+  .tag-editable .tag-del { color: var(--danger); cursor: pointer; font-size: 13px; line-height: 1; }
+  .tag-editable .tag-del:hover { opacity: 0.7; }
+  .tag-input-row { display: flex; gap: 10px; }
+  .tag-new-input {
+    font-family: var(--mono); font-size: 12px; padding: 8px 12px;
+    background: var(--bg2); border: 1px solid var(--border-subtle);
+    color: var(--text); outline: none; flex: 1;
+  }
+  .tag-new-input:focus { border-color: var(--orange); }
+  .btn-tag-add {
+    font-family: var(--mono); font-size: 11px; padding: 8px 16px;
+    background: var(--orange); color: #0a0805; border: none; cursor: pointer; font-weight: 700;
+  }
+
+  /* ─── PROJECT THUMB ─── */
+  .thumb-row { display: flex; align-items: center; gap: 16px; }
+  .thumb-preview {
+    width: 100px; height: 64px; background: var(--bg3);
+    border: 1px solid var(--border-subtle); border-radius: 6px;
+    overflow: hidden; flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+  }
+  .thumb-preview img { width: 100%; height: 100%; object-fit: cover; }
+  .thumb-placeholder { font-size: 10px; color: var(--text-muted); text-align: center; padding: 8px; }
+  .btn-thumb {
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase;
+    padding: 8px 14px; background: transparent; color: var(--orange);
+    border: 1px dashed var(--orange-line); cursor: pointer; transition: all 0.2s;
+  }
+  .btn-thumb:hover { background: var(--orange-glow); border-style: solid; }
+  .thumb-clear { font-size: 10px; color: var(--danger); cursor: pointer; background: none; border: none; font-family: var(--mono); padding: 4px 0; }
+
+  /* ─── PHOTO UPLOADER ─── */
+  .photo-drop {
+    border: 2px dashed var(--border); padding: 48px;
+    text-align: center; cursor: pointer; transition: all 0.2s;
+    position: relative;
+  }
+  .photo-drop:hover, .photo-drop.drag { border-color: var(--orange); background: var(--orange-glow); }
+  .photo-drop input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+  .photo-preview {
+    width: 120px; height: 160px; margin: 0 auto 16px;
+    background: var(--bg3); border: 1px solid var(--border-subtle);
+    overflow: hidden; display: flex; align-items: center; justify-content: center;
+  }
+  .photo-preview img { width: 100%; height: 100%; object-fit: cover; }
+  .photo-drop-text { font-size: 12px; color: var(--text-muted); line-height: 1.8; }
+
+  /* ─── TOAST ─── */
+  #toast {
+    position: fixed; bottom: 32px; right: 32px;
+    background: var(--orange); color: #0a0805;
+    font-family: var(--mono); font-size: 12px; font-weight: 700;
+    padding: 14px 24px; letter-spacing: 0.1em;
+    transform: translateY(20px); opacity: 0;
+    transition: all 0.3s; pointer-events: none; z-index: 1000;
+  }
+  #toast.show { transform: translateY(0); opacity: 1; }
+
+  /* ─── SOCIAL EDITOR ─── */
+  .social-row { display: flex; gap: 12px; align-items: center; margin-bottom: 12px; }
+  .social-label { font-size: 11px; color: var(--text-muted); min-width: 80px; text-transform: uppercase; letter-spacing: 0.1em; }
+
+  .cert-edit-item {
+    display: flex; gap: 12px; margin-bottom: 12px; align-items: flex-start;
+  }
+  .cert-code-input { width: 100px; flex-shrink: 0; }
+</style>
+</head>
+<body>
+
+<!-- Login Screen -->
+<div id="login-screen">
+  <div class="login-box">
+    <div class="login-logo">[ ADMIN ]</div>
+    <div class="login-sub">PORTFOLIO CONTROL PANEL</div>
+
+    <div class="login-field">
+      <label class="login-label">Password</label>
+      <input type="password" class="login-input" id="pw-input" placeholder="Enter password" onkeydown="if(event.key==='Enter')doLogin()">
+    </div>
+    <button class="login-btn" onclick="doLogin()">Access Panel</button>
+    <div class="login-err" id="login-err"></div>
+    <div style="font-size:10px;color:var(--text-muted);margin-top:20px">Default password: <span style="color:var(--orange)">admin2025</span><br>Change it in Settings tab after login.</div>
+  </div>
+</div>
+
+<!-- Admin Panel -->
+<div id="admin-panel">
+  <header class="admin-header">
+    <div class="admin-logo">Adarsh Joshi <span>/ Admin</span></div>
+    <div class="admin-actions">
+      <button class="btn-save" onclick="saveAll()">Save All Changes</button>
+      <a href="index.html" target="_blank" class="btn-ghost">Preview Site ↗</a>
+      <button class="btn-danger" onclick="doLogout()">Logout</button>
+    </div>
+  </header>
+
+  <div class="admin-body">
+    <!-- Sidebar -->
+    <aside class="admin-sidebar">
+      <div class="sidebar-section">
+        <div class="sidebar-section-title">Content</div>
+        <button class="sidebar-item active" onclick="showTab('hero')">Hero Section</button>
+        <button class="sidebar-item" onclick="showTab('about')">About & Photo</button>
+        <button class="sidebar-item" onclick="showTab('projects')">Projects</button>
+        <button class="sidebar-item" onclick="showTab('skills')">Skills & Stack</button>
+        <button class="sidebar-item" onclick="showTab('certs')">Certifications</button>
+        <button class="sidebar-item" onclick="showTab('contact')">Contact & Socials</button>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-section-title">System</div>
+        <button class="sidebar-item" onclick="showTab('settings')">Settings</button>
+        <button class="sidebar-item" onclick="showTab('export')">Export / Import</button>
+      </div>
+    </aside>
+
+    <!-- Content -->
+    <main class="admin-content">
+
+      <!-- HERO TAB -->
+      <div class="tab-pane active" id="tab-hero">
+        <div class="pane-title">Hero Section</div>
+        <div class="pane-sub">MAIN LANDING TEXT, TAGLINE, AND CTA LINKS</div>
+
+        <div class="admin-card">
+          <div class="admin-card-title">Identity</div>
+          <div class="field-group">
+            <label class="field-label">Name (displayed in hero)</label>
+            <input type="text" class="field-input" id="h-name" value="Adarsh Joshi">
+          </div>
+          <div class="field-group">
+            <label class="field-label">Role Label (top of hero)</label>
+            <input type="text" class="field-input" id="h-role" value="DevOps & Cloud Engineer">
+          </div>
+        </div>
+
+        <div class="admin-card">
+          <div class="admin-card-title">Tagline</div>
+          <div class="field-group">
+            <label class="field-label">Tagline Text (supports HTML)</label>
+            <textarea class="field-textarea" id="h-tagline" rows="4">Building resilient cloud infrastructure,&lt;br&gt; automating the world - one pipeline at a time.&lt;br&gt; Specializing in AWS Security &amp;amp; &lt;span class="glitch-word" id="glitch-word" data-text="CI/CD"&gt;CI/CD&lt;/span&gt;</textarea>
+            <div class="field-hint">// The last &lt;span class="glitch-word"&gt; triggers the glitch animation</div>
+          </div>
+          <div class="field-group">
+            <label class="field-label">Glitch Words (comma-separated)</label>
+            <input type="text" class="field-input" id="h-glitch-words" value="CI/CD, pipelines, automation, infrastructure, resilience, zero-downtime, cloud">
+            <div class="field-hint">// These words cycle through with glitch effect every 2.4s</div>
+          </div>
+        </div>
+
+        <div class="admin-card">
+          <div class="admin-card-title">Stats</div>
+          <div class="two-col">
+            <div class="field-group">
+              <label class="field-label">Stat 1 (number)</label>
+              <input type="text" class="field-input" id="stat1-num" value="6+">
+            </div>
+            <div class="field-group">
+              <label class="field-label">Stat 1 (label)</label>
+              <input type="text" class="field-input" id="stat1-label" value="Months Pro">
+            </div>
+          </div>
+        </div>
+
+        <div class="admin-card">
+          <div class="admin-card-title">CV Download Link</div>
+          <div class="field-group">
+            <label class="field-label">CV file path or URL</label>
+            <input type="text" class="field-input" id="h-cv" value="Adarsh_Joshi_Resume.pdf">
+            <div class="field-hint">// Place the PDF in the same folder as index.html</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ABOUT TAB -->
+      <div class="tab-pane" id="tab-about">
+        <div class="pane-title">About & Photo</div>
+        <div class="pane-sub">BIO TEXT AND PROFILE PHOTO</div>
+
+        <div class="admin-card">
+          <div class="admin-card-title">Profile Photo</div>
+          <div class="photo-drop" id="photo-drop" onclick="document.getElementById('photo-file').click()">
+            <input type="file" id="photo-file" accept="image/*" style="display:none" onchange="handlePhoto(this)">
+            <div class="photo-preview" id="photo-preview">
+              <span style="font-size:24px;color:var(--text-muted)">👤</span>
+            </div>
+            <div class="photo-drop-text">
+              Click to upload photo<br>
+              <span style="color:var(--orange)">JPG, PNG - max 2MB recommended</span>
+            </div>
+          </div>
+          <div style="margin-top:12px;display:flex;gap:10px">
+            <button class="btn-ghost" onclick="clearPhoto()">Clear Photo</button>
+          </div>
+        </div>
+
+        <div class="admin-card">
+          <div class="admin-card-title">Bio</div>
+          <div class="field-group">
+            <label class="field-label">About Text (supports HTML)</label>
+            <textarea class="field-textarea" id="about-bio" rows="8">I'm a &lt;strong&gt;DevOps &amp;amp; Cloud Engineer&lt;/strong&gt; currently working at &lt;strong&gt;One Cloud Utopia&lt;/strong&gt;, where I design and deliver production-grade CI/CD pipelines, architect scalable AWS infrastructure, and consult clients on cloud strategy.
+&lt;br&gt;&lt;br&gt;
+I'm pursuing a &lt;strong&gt;Bachelor of Computer Engineering&lt;/strong&gt; at Far Western University, Nepal (GPA: 3.45), with a deep focus on security-first infrastructure.
+&lt;br&gt;&lt;br&gt;
+When I'm not automating pipelines, you'll find me contributing to &lt;strong&gt;AWS Community Nepal&lt;/strong&gt; events.</textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- PROJECTS TAB -->
+      <div class="tab-pane" id="tab-projects">
+        <div class="pane-title">Projects</div>
+        <div class="pane-sub">MANAGE YOUR PORTFOLIO PROJECTS</div>
+
+        <div class="project-list" id="project-list"></div>
+        <button class="btn-add" onclick="addProject()">+ Add New Project</button>
+      </div>
+
+      <!-- SKILLS TAB -->
+      <div class="tab-pane" id="tab-skills">
+        <div class="pane-title">Skills & Stack</div>
+        <div class="pane-sub">SKILL TAGS AND STACK CATEGORIES</div>
+
+        <div class="admin-card">
+          <div class="admin-card-title">Skill Tags (About section)</div>
+          <div class="tag-editor" id="skill-tags-editor"></div>
+          <div class="tag-input-row">
+            <input type="text" class="tag-new-input" id="new-skill-tag" placeholder="Add skill tag..." onkeydown="if(event.key==='Enter')addSkillTag()">
+            <button class="btn-tag-add" onclick="addSkillTag()">Add</button>
+          </div>
+        </div>
+
+        <div class="admin-card">
+          <div class="admin-card-title">Stack Categories</div>
+          <div id="stack-cats">
+            <div class="two-col" style="margin-bottom:24px">
+              <div class="field-group">
+                <label class="field-label">Cloud Services</label>
+                <textarea class="field-textarea" id="stack-cloud" rows="7">EC2 / VPC
+S3 / RDS
+Lambda
+CloudFormation
+CloudWatch
+Route 53
+STS / IAM</textarea>
+              </div>
+              <div class="field-group">
+                <label class="field-label">DevOps</label>
+                <textarea class="field-textarea" id="stack-devops" rows="7">GitHub Actions
+Docker
+Docker Compose
+PM2
+Bash Scripting
+Linux
+Certbot SSL</textarea>
+              </div>
+            </div>
+            <div class="two-col">
+              <div class="field-group">
+                <label class="field-label">Security & IaC</label>
+                <textarea class="field-textarea" id="stack-security" rows="7">IAM Policy Design
+Least-Privilege
+SSL/TLS
+Security Groups
+VPC Networking
+CloudFormation</textarea>
+              </div>
+              <div class="field-group">
+                <label class="field-label">Languages & Tools</label>
+                <textarea class="field-textarea" id="stack-languages" rows="7">Python
+Bash
+C / C++
+SQL
+Boto3
+REST API
+FastAPI</textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CERTS TAB -->
+      <div class="tab-pane" id="tab-certs">
+        <div class="pane-title">Certifications</div>
+        <div class="pane-sub">AWS AND OTHER CERTIFICATIONS</div>
+
+        <div class="admin-card">
+          <div class="admin-card-title">Certifications</div>
+          <div id="certs-list"></div>
+          <button class="btn-add" onclick="addCert()" style="margin-top:8px">+ Add Certification</button>
+        </div>
+      </div>
+
+      <!-- CONTACT TAB -->
+      <div class="tab-pane" id="tab-contact">
+        <div class="pane-title">Contact & Socials</div>
+        <div class="pane-sub">EMAIL, PHONE, AND SOCIAL LINKS</div>
+
+        <div class="admin-card">
+          <div class="admin-card-title">Contact Info</div>
+          <div class="field-group">
+            <label class="field-label">Email</label>
+            <input type="text" class="field-input" id="c-email" value="joshiadarsh421@gmail.com">
+          </div>
+          <div class="field-group">
+            <label class="field-label">Phone</label>
+            <input type="text" class="field-input" id="c-phone" value="+977-9862467633">
+          </div>
+        </div>
+
+        <div class="admin-card">
+          <div class="admin-card-title">Social Links</div>
+          <div class="social-row">
+            <span class="social-label">GitHub</span>
+            <input type="text" class="field-input" id="s-github" value="https://github.com/jadarshh">
+          </div>
+          <div class="social-row">
+            <span class="social-label">LinkedIn</span>
+            <input type="text" class="field-input" id="s-linkedin" value="https://linkedin.com/in/adarsh69">
+          </div>
+          <div class="social-row">
+            <span class="social-label">Twitter</span>
+            <input type="text" class="field-input" id="s-twitter" value="">
+          </div>
+        </div>
+      </div>
+
+      <!-- SETTINGS TAB -->
+      <div class="tab-pane" id="tab-settings">
+        <div class="pane-title">Settings</div>
+        <div class="pane-sub">ADMIN PASSWORD AND PREFERENCES</div>
+
+        <div class="admin-card">
+          <div class="admin-card-title">Change Password</div>
+          <div class="field-group">
+            <label class="field-label">Current Password</label>
+            <input type="password" class="field-input" id="pw-current">
+          </div>
+          <div class="field-group">
+            <label class="field-label">New Password</label>
+            <input type="password" class="field-input" id="pw-new">
+          </div>
+          <div class="field-group">
+            <label class="field-label">Confirm New Password</label>
+            <input type="password" class="field-input" id="pw-confirm">
+          </div>
+          <button class="btn-save" onclick="changePassword()">Update Password</button>
+          <div id="pw-msg" style="font-size:11px;margin-top:10px;min-height:16px;color:var(--orange)"></div>
+        </div>
+      </div>
+
+      <!-- EXPORT TAB -->
+      <div class="tab-pane" id="tab-export">
+        <div class="pane-title">Export / Import</div>
+        <div class="pane-sub">BACKUP AND RESTORE YOUR CONTENT</div>
+
+        <div class="admin-card">
+          <div class="admin-card-title">Export Data</div>
+          <p style="font-size:12px;color:var(--text-dim);margin-bottom:20px;line-height:1.8">
+            Download all your portfolio content as a JSON file. Use this to back up your data or transfer to another machine.
+          </p>
+          <button class="btn-save" onclick="exportData()">Download portfolio_data.json</button>
+        </div>
+
+        <div class="admin-card">
+          <div class="admin-card-title">Import Data</div>
+          <p style="font-size:12px;color:var(--text-dim);margin-bottom:20px;line-height:1.8">
+            Upload a previously exported JSON to restore your content. This will overwrite current data.
+          </p>
+          <input type="file" id="import-file" accept=".json" onchange="importData(this)" style="display:none">
+          <button class="btn-ghost" onclick="document.getElementById('import-file').click()">Choose JSON File</button>
+        </div>
+
+        <div class="admin-card">
+          <div class="admin-card-title" style="color:var(--danger)">Danger Zone</div>
+          <p style="font-size:12px;color:var(--text-dim);margin-bottom:20px;line-height:1.8">
+            Reset all content to defaults. This cannot be undone.
+          </p>
+          <button class="btn-danger" onclick="resetAll()">Reset All Data</button>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<div id="toast">Changes saved!</div>
+
+<script>
+// ─── SECURITY MANAGER ───
+const AdminSecurity = {
+  rateLimits: {},
+  loginAttempts: 0,
+  maxLoginAttempts: 5,
+  lockoutTime: 900000, // 15 minutes
+  lockoutUntil: null,
+  
+  limits: {
+    login: { max: 5, window: 900000 },
+    save: { max: 10, window: 60000 },
+    export: { max: 3, window: 300000 }
+  },
+  
+  checkRateLimit(action) {
+    const now = Date.now();
+    const limit = this.limits[action];
+    
+    if (!limit) return { blocked: false };
+    
+    if (!this.rateLimits[action]) {
+      this.rateLimits[action] = [];
+    }
+    
+    this.rateLimits[action] = this.rateLimits[action].filter(
+      time => now - time < limit.window
+    );
+    
+    if (this.rateLimits[action].length >= limit.max) {
+      const oldestAttempt = this.rateLimits[action][0];
+      const waitTime = Math.ceil((limit.window - (now - oldestAttempt)) / 1000);
+      return { blocked: true, waitTime };
+    }
+    
+    this.rateLimits[action].push(now);
+    return { blocked: false };
+  },
+  
+  checkLockout() {
+    if (this.lockoutUntil && Date.now() < this.lockoutUntil) {
+      const remaining = Math.ceil((this.lockoutUntil - Date.now()) / 60000);
+      return { locked: true, minutes: remaining };
+    }
+    return { locked: false };
+  },
+  
+  recordFailedLogin() {
+    this.loginAttempts++;
+    if (this.loginAttempts >= this.maxLoginAttempts) {
+      this.lockoutUntil = Date.now() + this.lockoutTime;
+      this.loginAttempts = 0;
+      this.logSecurityEvent('login_lockout', 'Too many failed attempts');
+      return true;
+    }
+    return false;
+  },
+  
+  resetLoginAttempts() {
+    this.loginAttempts = 0;
+  },
+  
+  sanitizeInput(input) {
+    if (typeof input !== 'string') return input;
+    return input
+      .replace(/[<>]/g, '')
+      .replace(/javascript:/gi, '')
+      .replace(/on\w+=/gi, '')
+      .trim()
+      .slice(0, 10000);
+  },
+  
+  validatePassword(password) {
+    if (password.length < 6) return { valid: false, message: 'Password must be at least 6 characters' };
+    if (password.length > 128) return { valid: false, message: 'Password too long' };
+    if (!/[a-zA-Z]/.test(password)) return { valid: false, message: 'Password must contain letters' };
+    return { valid: true };
+  },
+  
+  detectSuspiciousActivity(action, data) {
+    const suspicious = [];
+    const dataStr = JSON.stringify(data);
+    
+    if (/<script|javascript:|onerror=|onload=/gi.test(dataStr)) {
+      suspicious.push('XSS attempt');
+    }
+    
+    if (/(\b(SELECT|INSERT|UPDATE|DELETE|DROP|UNION|ALTER)\b)/gi.test(dataStr)) {
+      suspicious.push('SQL injection attempt');
+    }
+    
+    if (/\.\.[\/\\]/g.test(dataStr)) {
+      suspicious.push('Path traversal attempt');
+    }
+    
+    if (suspicious.length > 0) {
+      console.warn(`[ADMIN SECURITY] Suspicious activity in ${action}:`, suspicious);
+      this.logSecurityEvent(action, suspicious.join(', '));
+      return true;
+    }
+    
+    return false;
+  },
+  
+  logSecurityEvent(action, details) {
+    const event = {
+      timestamp: new Date().toISOString(),
+      action,
+      details,
+      userAgent: navigator.userAgent
+    };
+    
+    const logs = JSON.parse(localStorage.getItem('admin_security_logs') || '[]');
+    logs.push(event);
+    
+    if (logs.length > 100) logs.shift();
+    
+    localStorage.setItem('admin_security_logs', JSON.stringify(logs));
+  },
+  
+  init() {
+    console.info('[ADMIN SECURITY] Security manager initialized');
+    console.info('[ADMIN SECURITY] Rate limiting enabled');
+    console.info('[ADMIN SECURITY] Login attempt tracking active');
+  }
+};
+
+AdminSecurity.init();
+
+// ─── AUTH ───
+const DEFAULT_PW = 'admin2025';
+
+function doLogin() {
+  // Check lockout
+  const lockout = AdminSecurity.checkLockout();
+  if (lockout.locked) {
+    document.getElementById('login-err').textContent = `// Account locked. Try again in ${lockout.minutes} minutes.`;
+    return;
+  }
+  
+  // Rate limit check
+  const rateCheck = AdminSecurity.checkRateLimit('login');
+  if (rateCheck.blocked) {
+    document.getElementById('login-err').textContent = `// Too many attempts. Wait ${Math.ceil(rateCheck.waitTime / 60)} minutes.`;
+    return;
+  }
+  
+  const pw = document.getElementById('pw-input').value;
+  const stored = localStorage.getItem('admin_pw') || DEFAULT_PW;
+  
+  // Sanitize input
+  const cleanPw = AdminSecurity.sanitizeInput(pw);
+  
+  if (cleanPw === stored) {
+    AdminSecurity.resetLoginAttempts();
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('admin-panel').style.display = 'block';
+    initAdmin();
+    AdminSecurity.logSecurityEvent('login_success', 'Admin logged in');
+  } else {
+    const locked = AdminSecurity.recordFailedLogin();
+    if (locked) {
+      document.getElementById('login-err').textContent = '// Too many failed attempts. Account locked for 15 minutes.';
+    } else {
+      document.getElementById('login-err').textContent = `// Incorrect password. ${AdminSecurity.maxLoginAttempts - AdminSecurity.loginAttempts} attempts remaining.`;
+    }
+    document.getElementById('pw-input').value = '';
+  }
+}
+
+function doLogout() {
+  document.getElementById('admin-panel').style.display = 'none';
+  document.getElementById('login-screen').style.display = 'flex';
+  document.getElementById('pw-input').value = '';
+}
+
+function changePassword() {
+  const curr = document.getElementById('pw-current').value;
+  const nw = document.getElementById('pw-new').value;
+  const cf = document.getElementById('pw-confirm').value;
+  const stored = localStorage.getItem('admin_pw') || DEFAULT_PW;
+  const msg = document.getElementById('pw-msg');
+
+  // Sanitize inputs
+  const cleanCurr = AdminSecurity.sanitizeInput(curr);
+  const cleanNew = AdminSecurity.sanitizeInput(nw);
+  const cleanConfirm = AdminSecurity.sanitizeInput(cf);
+
+  if (cleanCurr !== stored) { msg.textContent = '// Current password incorrect.'; return; }
+  
+  // Validate new password
+  const validation = AdminSecurity.validatePassword(cleanNew);
+  if (!validation.valid) {
+    msg.textContent = `// ${validation.message}`;
+    return;
+  }
+  
+  if (cleanNew !== cleanConfirm) { msg.textContent = '// Passwords do not match.'; return; }
+
+  localStorage.setItem('admin_pw', cleanNew);
+  AdminSecurity.logSecurityEvent('password_change', 'Admin password changed');
+  msg.textContent = '// Password updated successfully.';
+  ['pw-current','pw-new','pw-confirm'].forEach(id => document.getElementById(id).value = '');
+}
+
+// ─── TABS ───
+function showTab(name) {
+  document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.sidebar-item').forEach(s => s.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  event.target.classList.add('active');
+}
+
+// ─── DATA ───
+let data = {};
+
+function loadData() {
+  data = JSON.parse(localStorage.getItem('portfolio_data') || '{}');
+
+  // Hero
+  if (data.heroName) document.getElementById('h-name').value = data.heroName;
+  if (data.heroRole) document.getElementById('h-role').value = data.heroRole;
+  if (data.heroTagline) document.getElementById('h-tagline').value = data.heroTagline;
+  if (data.glitchWords) document.getElementById('h-glitch-words').value = data.glitchWords;
+  if (data.heroCv) document.getElementById('h-cv').value = data.heroCv;
+  if (data.stat1Num) document.getElementById('stat1-num').value = data.stat1Num;
+  if (data.stat1Label) document.getElementById('stat1-label').value = data.stat1Label;
+
+  // About
+  if (data.aboutBio) document.getElementById('about-bio').value = data.aboutBio;
+  if (data.photoSrc) {
+    const preview = document.getElementById('photo-preview');
+    preview.innerHTML = `<img src="${data.photoSrc}" alt="photo">`;
+  }
+
+  // Contact
+  if (data.contactEmail) document.getElementById('c-email').value = data.contactEmail;
+  if (data.contactPhone) document.getElementById('c-phone').value = data.contactPhone;
+  if (data.socials) {
+    if (data.socials.github) document.getElementById('s-github').value = data.socials.github;
+    if (data.socials.linkedin) document.getElementById('s-linkedin').value = data.socials.linkedin;
+    if (data.socials.twitter) document.getElementById('s-twitter').value = data.socials.twitter;
+  }
+
+  // Stack
+  if (data.stacks) {
+    if (data.stacks.cloud) document.getElementById('stack-cloud').value = data.stacks.cloud;
+    if (data.stacks.devops) document.getElementById('stack-devops').value = data.stacks.devops;
+    if (data.stacks.security) document.getElementById('stack-security').value = data.stacks.security;
+    if (data.stacks.languages) document.getElementById('stack-languages').value = data.stacks.languages;
+  }
+}
+
+function saveAll() {
+  // Rate limit check
+  const rateCheck = AdminSecurity.checkRateLimit('save');
+  if (rateCheck.blocked) {
+    showToast(`⚠ Too many saves. Wait ${rateCheck.waitTime} seconds.`);
+    return;
+  }
+  
+  // Collect data
+  const newData = {
+    heroName: document.getElementById('h-name').value,
+    heroRole: document.getElementById('h-role').value,
+    heroTagline: document.getElementById('h-tagline').value,
+    glitchWords: document.getElementById('h-glitch-words').value,
+    heroCv: document.getElementById('h-cv').value,
+    stat1Num: document.getElementById('stat1-num').value,
+    stat1Label: document.getElementById('stat1-label').value,
+    aboutBio: document.getElementById('about-bio').value,
+    contactEmail: document.getElementById('c-email').value,
+    contactPhone: document.getElementById('c-phone').value,
+    socials: {
+      github: document.getElementById('s-github').value,
+      linkedin: document.getElementById('s-linkedin').value,
+      twitter: document.getElementById('s-twitter').value,
+    },
+    stacks: {
+      cloud: document.getElementById('stack-cloud').value,
+      devops: document.getElementById('stack-devops').value,
+      security: document.getElementById('stack-security').value,
+      languages: document.getElementById('stack-languages').value,
+    },
+    projects: currentProjects,
+    certs: currentCerts,
+    skillTags: currentSkillTags
+  };
+  
+  // Check for suspicious activity
+  if (AdminSecurity.detectSuspiciousActivity('save', newData)) {
+    showToast('⚠ Invalid data detected. Please check your inputs.');
+    return;
+  }
+  
+  // Sanitize all string inputs
+  Object.keys(newData).forEach(key => {
+    if (typeof newData[key] === 'string') {
+      newData[key] = AdminSecurity.sanitizeInput(newData[key]);
+    }
+  });
+  
+  data = newData;
+  localStorage.setItem('portfolio_data', JSON.stringify(data));
+  AdminSecurity.logSecurityEvent('data_save', 'Portfolio data saved');
+  showToast('✓ Changes saved!');
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// ─── PROJECTS ───
+let currentProjects = [];
+
+const defaultProjects = [
+  {
+    title: 'Dev & Production Pipeline',
+    subtitle: 'One Cloud Utopia',
+    tags: ['GitHub Actions', 'Docker', 'AWS EC2', 'S3', 'IAM'],
+    shortDesc: 'Fully automated CI/CD for One Cloud Utopia client deployments with separate dev/prod branches, zero-downtime deploys.',
+    longDesc: 'Built fully automated CI/CD with Docker image builds, containerised services, IAM role-based access control, and CloudWatch alerting after every deployment.',
+    github: 'https://github.com/jadarshh',
+    live: ''
+  },
+  {
+    title: 'IoT Smart Agriculture DSS',
+    subtitle: 'Agriculture Decision Support',
+    tags: ['Docker', 'FastAPI', 'AWS EC2', 'ESP32', 'PostgreSQL'],
+    shortDesc: 'DevOps infrastructure for a dual-backend IoT agriculture platform.',
+    longDesc: 'CI/CD pipeline cutting deploy time from hours to 3 minutes. Hardened EC2 with VPC security groups, SSH key management, PM2, automated SSL renewal.',
+    github: 'https://github.com/jadarshh',
+    live: ''
+  },
+  {
+    title: 'ServerControl',
+    subtitle: 'Multi-Account EC2 Platform',
+    tags: ['Python', 'Boto3', 'AWS STS', 'IAM', 'REST API'],
+    shortDesc: 'Multi-account EC2 management platform - provision, start, stop from one place.',
+    longDesc: 'STS AssumeRole for secure cross-account switching. REST API with Python & Boto3 exposing all instance actions with filters by region, instance type, and tags.',
+    github: 'https://github.com/jadarshh',
+    live: ''
+  }
+];
+
+function renderProjects() {
+  const list = document.getElementById('project-list');
+  list.innerHTML = currentProjects.map((p, i) => `
+    <div class="project-edit-item">
+      <div class="project-edit-header">
+        <div class="project-edit-name">${p.title || 'Untitled Project'}</div>
+        <button class="btn-danger" onclick="removeProject(${i})">Remove</button>
+      </div>
+      <div class="field-group">
+        <label class="field-label">Thumbnail Image</label>
+        <div class="thumb-row">
+          <div class="thumb-preview" id="tp-${i}">
+            ${p.thumb ? `<img src="${p.thumb}" alt="thumb">` : '<div class="thumb-placeholder">No image</div>'}
+          </div>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <input type="file" id="tf-${i}" accept="image/*" style="display:none" onchange="uploadThumb(${i},this)">
+            <button class="btn-thumb" onclick="document.getElementById('tf-${i}').click()">Upload Image</button>
+            ${p.thumb ? `<button class="thumb-clear" onclick="clearThumb(${i})">✕ Remove</button>` : ''}
+          </div>
+          <div style="font-size:9px;color:var(--text-muted);line-height:1.7;margin-left:4px">JPG, PNG, WebP<br>Recommended: 600×400px</div>
+        </div>
+      </div>
+      <div class="two-col">
+        <div class="field-group">
+          <label class="field-label">Title</label>
+          <input type="text" class="field-input" value="${p.title}" onchange="currentProjects[${i}].title=this.value;renderProjects()">
+        </div>
+        <div class="field-group">
+          <label class="field-label">Subtitle</label>
+          <input type="text" class="field-input" value="${p.subtitle||''}" onchange="currentProjects[${i}].subtitle=this.value">
+        </div>
+      </div>
+      <div class="field-group">
+        <label class="field-label">Tags (comma-separated)</label>
+        <input type="text" class="field-input" value="${(p.tags||[]).join(', ')}" onchange="currentProjects[${i}].tags=this.value.split(',').map(t=>t.trim())">
+      </div>
+      <div class="field-group">
+        <label class="field-label">Short Description (front of card)</label>
+        <textarea class="field-textarea" rows="2" onchange="currentProjects[${i}].shortDesc=this.value">${p.shortDesc||''}</textarea>
+      </div>
+      <div class="field-group">
+        <label class="field-label">Long Description (back of card)</label>
+        <textarea class="field-textarea" rows="3" onchange="currentProjects[${i}].longDesc=this.value">${p.longDesc||''}</textarea>
+      </div>
+      <div class="two-col">
+        <div class="field-group">
+          <label class="field-label">GitHub URL</label>
+          <input type="text" class="field-input" value="${p.github||''}" onchange="currentProjects[${i}].github=this.value">
+        </div>
+        <div class="field-group">
+          <label class="field-label">Live URL</label>
+          <input type="text" class="field-input" value="${p.live||''}" onchange="currentProjects[${i}].live=this.value">
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function uploadThumb(i, input) {
+  const file = input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    currentProjects[i].thumb = e.target.result;
+    renderProjects();
+  };
+  reader.readAsDataURL(file);
+}
+
+function clearThumb(i) {
+  currentProjects[i].thumb = '';
+  renderProjects();
+}
+
+function addProject() {
+  currentProjects.push({ title: 'New Project', subtitle: '', tags: [], shortDesc: '', longDesc: '', github: '', live: '', thumb: '' });
+  renderProjects();
+}
+function removeProject(i) {
+  if (!confirm('Remove this project?')) return;
+  currentProjects.splice(i, 1);
+  renderProjects();
+}
+
+// ─── SKILL TAGS ───
+let currentSkillTags = [
+  {name:'AWS EC2',hot:true},{name:'Docker',hot:true},{name:'GitHub Actions',hot:true},
+  {name:'IAM',hot:true},{name:'CloudFormation',hot:true},{name:'Python',hot:false},
+  {name:'Bash',hot:false},{name:'VPC',hot:false},{name:'S3',hot:false},
+  {name:'CloudWatch',hot:false},{name:'Route 53',hot:false},{name:'RDS',hot:false},
+  {name:'Boto3',hot:false},{name:'Linux',hot:false},{name:'Certbot SSL',hot:false},
+];
+
+function renderSkillTags() {
+  const el = document.getElementById('skill-tags-editor');
+  el.innerHTML = currentSkillTags.map((t, i) => `
+    <div class="tag-editable">
+      <span>${t.name}</span>
+      <span class="tag-del" onclick="removeSkillTag(${i})" title="Remove">×</span>
+    </div>
+  `).join('');
+}
+
+function addSkillTag() {
+  const inp = document.getElementById('new-skill-tag');
+  const val = inp.value.trim();
+  if (!val) return;
+  currentSkillTags.push({ name: val, hot: false });
+  inp.value = '';
+  renderSkillTags();
+}
+
+function removeSkillTag(i) {
+  currentSkillTags.splice(i, 1);
+  renderSkillTags();
+}
+
+// ─── CERTS ───
+let currentCerts = [
+  { code: 'SCS-C03', name: 'AWS Certified Security – Specialty' },
+  { code: 'CLF-C02', name: 'AWS Certified Cloud Foundation' },
+];
+
+function renderCerts() {
+  const el = document.getElementById('certs-list');
+  el.innerHTML = currentCerts.map((c, i) => `
+    <div class="cert-edit-item">
+      <input type="text" class="field-input cert-code-input" value="${c.code}" placeholder="Code" onchange="currentCerts[${i}].code=this.value">
+      <input type="text" class="field-input" value="${c.name}" placeholder="Full name" onchange="currentCerts[${i}].name=this.value">
+      <button class="btn-danger" onclick="removeCert(${i})" style="white-space:nowrap">Remove</button>
+    </div>
+  `).join('');
+}
+
+function addCert() {
+  currentCerts.push({ code: '', name: '' });
+  renderCerts();
+}
+function removeCert(i) {
+  currentCerts.splice(i, 1);
+  renderCerts();
+}
+
+// ─── PHOTO ───
+function handlePhoto(input) {
+  const file = input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    const src = e.target.result;
+    data.photoSrc = src;
+    document.getElementById('photo-preview').innerHTML = `<img src="${src}" alt="photo">`;
+  };
+  reader.readAsDataURL(file);
+}
+
+function clearPhoto() {
+  data.photoSrc = '';
+  document.getElementById('photo-preview').innerHTML = '<span style="font-size:24px;color:var(--text-muted)">👤</span>';
+}
+
+// ─── EXPORT/IMPORT ───
+function exportData() {
+  const json = JSON.stringify(data, null, 2);
+  const blob = new Blob([json], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'portfolio_data.json'; a.click();
+  URL.revokeObjectURL(url);
+}
+
+function importData(input) {
+  const file = input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      data = JSON.parse(e.target.result);
+      localStorage.setItem('portfolio_data', JSON.stringify(data));
+      showToast('Data imported! Reload admin to see changes.');
+    } catch(err) {
+      alert('Invalid JSON file.');
+    }
+  };
+  reader.readAsText(file);
+}
+
+function resetAll() {
+  if (!confirm('Reset ALL data? This cannot be undone.')) return;
+  localStorage.removeItem('portfolio_data');
+  data = {};
+  showToast('Data reset. Refresh to reload defaults.');
+}
+
+// ─── INIT ───
+function initAdmin() {
+  // Load saved data
+  loadData();
+
+  // Init projects
+  const saved = JSON.parse(localStorage.getItem('portfolio_data') || '{}');
+  currentProjects = saved.projects || defaultProjects;
+  currentCerts = saved.certs || currentCerts;
+  currentSkillTags = saved.skillTags || currentSkillTags;
+
+  renderProjects();
+  renderSkillTags();
+  renderCerts();
+}
+</script>
+</body>
+</html>

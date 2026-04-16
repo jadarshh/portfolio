@@ -1,0 +1,131 @@
+=====================================
+ADARSH JOSHI
+DevOps & Cloud Engineer
+=====================================
+
+CONTACT
+Email: joshiadarsh421@gmail.com
+Phone: +977-9862467633
+LinkedIn: linkedin.com/in/adarsh69
+GitHub: github.com/jadarshh
+Portfolio: [Your GitHub Pages URL]
+
+=====================================
+PROFESSIONAL SUMMARY
+=====================================
+
+AWS-certified DevOps & Cloud Engineer with 6+ months of professional experience designing CI/CD pipelines, architecting AWS infrastructure, and consulting clients on cloud strategy. Specializing in security-first cloud engineering with expertise in IAM least-privilege, VPC hardening, and zero-downtime deployments.
+
+=====================================
+CERTIFICATIONS
+=====================================
+
+• AWS Certified Security Specialty (SCS-C03)
+• AWS Certified Cloud Practitioner (CLF-C02)
+
+=====================================
+TECHNICAL SKILLS
+=====================================
+
+Cloud Platforms:
+• AWS (EC2, VPC, S3, RDS, Lambda, CloudFormation, CloudWatch, Route 53, IAM, STS)
+
+DevOps & CI/CD:
+• GitHub Actions, Docker, Docker Compose, PM2, Bash Scripting
+
+Security & IaC:
+• IAM Policy Design, Least-Privilege Architecture, SSL/TLS, Security Groups
+• VPC Networking, CloudFormation
+
+Programming & Tools:
+• Python, Bash, C/C++, SQL, Boto3, REST API, FastAPI, Linux
+
+=====================================
+PROFESSIONAL EXPERIENCE
+=====================================
+
+DevOps & Cloud Engineer
+One Cloud Utopia | Sep 2024 - Present | Remote
+
+• Designed and delivered CI/CD pipelines using GitHub Actions, automating build, test, and deployment across staging and production environments
+• Provided cloud consulting on AWS: architecture, service selection, and infrastructure design tailored to each client's requirements
+• Provisioned and managed infrastructure using EC2, VPC, IAM, S3, RDS, CloudWatch - secure, scalable, always-on
+• Implemented IAM least-privilege policies and VPC hardening for enhanced security
+• Achieved zero-downtime deployments through automated rollback strategies
+
+---
+
+SEO Content Writer
+Ignited Nepal | Mar 2022 - Aug 2022 | Remote
+
+• Produced SEO-optimized blog content, driving organic rankings through data-driven keyword strategies
+• Collaborated with marketing team to align content with business objectives
+
+=====================================
+PROJECTS
+=====================================
+
+Dev & Production Pipeline
+Technologies: GitHub Actions, Docker, AWS EC2, S3, IAM, Route 53
+
+• Fully automated CI/CD for One Cloud Utopia with separate dev/prod branches, Docker image builds, zero-downtime deployments
+• Implemented IAM role-based access, CloudWatch health alerting after each deploy
+• Reduced deployment time by 70% and eliminated manual errors
+
+---
+
+Multi-Account EC2 Management Platform
+Technologies: Python, Boto3, AWS STS, IAM, REST API
+
+• Multi-account EC2 management platform - provision, start, stop from one place
+• STS AssumeRole for secure cross-account switching
+• REST API with Python & Boto3 exposing all instance actions with filters by region, instance type, and tags
+
+---
+
+VPC Security Hardening Project
+Technologies: AWS VPC, Security Groups, NACLs, IAM
+
+• Designed and implemented secure VPC architecture with public/private subnets
+• Configured security groups and NACLs following least-privilege principles
+• Implemented VPN and bastion host for secure administrative access
+
+=====================================
+EDUCATION
+=====================================
+
+Bachelor of Engineering in Computer Engineering
+Far Western University, Nepal | Expected Graduation: [Year]
+GPA: 3.45/4.0
+
+Specialization: Security-first cloud engineering, Infrastructure automation
+
+=====================================
+COMMUNITY INVOLVEMENT
+=====================================
+
+• Active contributor to AWS Community Nepal events
+• Sharing knowledge on cloud architecture and DevOps best practices
+• Mentoring junior engineers in cloud technologies
+
+=====================================
+LANGUAGES
+=====================================
+
+• English: Professional working proficiency
+• Nepali: Native proficiency
+
+=====================================
+
+NOTE: This is a placeholder CV file.
+Replace this with your actual PDF resume.
+
+Instructions:
+1. Create your professional CV as a PDF
+2. Name it: Adarsh_Joshi_Resume.pdf
+3. Place it in the same folder as index.html
+4. Delete this placeholder file
+
+See CV_SETUP_INSTRUCTIONS.md for detailed setup guide.
+
+=====================================
